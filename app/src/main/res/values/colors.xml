@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorReportedHashrate">#ffd740</color>
+    <color name="colorCurrentHashrate">#69f0ae</color>
+    <color name="colorWorkers">#40c4ff</color>
+    <color name="colorAverageHashrate">#ffab91</color>
+    <color name="colorInvalidShares">#ff6e40</color>
+    <color name="colorStaleShares">#ffff00</color>
+    <color name="colorValidShares">#69f0ae</color>
+</resources>

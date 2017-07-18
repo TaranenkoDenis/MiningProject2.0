@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="updateInterval">1, 2, 3, 4</string-array>
+    <string-array name="updateIntervalValues">100, 200, 300, 400</string-array>
+</resources>

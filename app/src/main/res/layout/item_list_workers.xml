@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/ll_expanded_list_item"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp">
+
+
+    <TextView
+        android:id="@+id/tv_name_worker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ethermine"
+        android:ellipsize="end"
+        android:maxLines="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:divider="@drawable/separator"
+        android:showDividers="middle">
+        <TextView
+            android:id="@+id/tv_current_hashrate_worker"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:text="@string/current_n_hashrate"
+            android:layout_marginRight="4dp"
+            android:layout_marginEnd="4dp"
+            android:textSize="12sp"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:id="@+id/tv_reported_hashrate_worker"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:textSize="12sp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:text="@string/reported_n_hashrate"
+            android:textAlignment="center" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.45"
+            android:orientation="horizontal"
+            android:layout_marginRight="4dp"
+            android:layout_marginLeft="4dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textSize="12sp"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:id="@+id/tv_number_valid_shares"
+                android:background="@color/colorValidShares"
+                android:text="@string/valid"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:layout_gravity="center_vertical"
+                android:textSize="12sp"
+                android:id="@+id/tv_number_stale_workers"
+                android:background="@color/colorStaleShares"
+                android:layout_weight="1"
+                android:text="@string/stale"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:layout_gravity="center_vertical"
+                android:textSize="12sp"
+                android:id="@+id/tv_number_invalid_workers"
+                android:background="@color/colorInvalidShares"
+                android:layout_weight="1"
+                android:text="@string/invalid"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_last_seen"
+            android:gravity="center_vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.15"
+            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:text="@string/time" />
+    </LinearLayout>
+
+</LinearLayout>
