@@ -1,10 +1,11 @@
 package com.example.denis.miningproject20.network;
 
+import android.util.Log;
+
 import com.example.denis.miningproject20.models.ethermine.ResponseEthermine;
 import com.example.denis.miningproject20.models.ethermine.WorkersEthermine;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -19,12 +20,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiEthermine implements IEthermineAPI {
 
+
+    private static final String LOG_TAG = "MY_LOG: " + ApiEthermine.class.getSimpleName();
+    private static IEthermineService ethermineService = null;
+
     @Override
-    public Call<ResponseEthermine> getResponseFromEthermine() {
+    public Call<ResponseEthermine> getResponseFromEthermine(String wallet) {
 
-        
-//        if(ethermineService == null) {
-
+        if (ethermineService == null){
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
@@ -32,16 +35,17 @@ public class ApiEthermine implements IEthermineAPI {
             Gson g = new GsonBuilder().registerTypeAdapter(WorkersEthermine.class, new WorkersEthermineDeserializer()).create();
 
             Retrofit retrofit = new Retrofit.Builder()
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .addConverterFactory(GsonConverterFactory.create(g))
-                    .client(client)
-                    .baseUrl("https://ethermine.org/")
-                    .build();
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(g))
+                .client(client)
+                .baseUrl("https://ethermine.org/")
+                .build();
 
-            IEthermineService ethermineService = retrofit.create(IEthermineService.class);
-//        }
+            ethermineService = retrofit.create(IEthermineService.class);
+        }
 
+        Log.d(LOG_TAG, "ethermineService = " +ethermineService);
         // TODO Think about how I can to do this better
-        return ethermineService.getDataFromEthermine("0x6ce0a4ce16ab8916af9ec6f811ad410966f0ee80");
+        return ethermineService.getDataFromEthermine(wallet);
     }
 }

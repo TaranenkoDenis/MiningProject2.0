@@ -11,22 +11,18 @@ import android.widget.Toast;
 
 import com.example.denis.miningproject20.ItemsRecyclerView;
 import com.example.denis.miningproject20.R;
-import com.example.denis.miningproject20.service.MyService;
 import com.example.denis.miningproject20.views.adapters.RecyclerAdatapterItems;
 import com.example.denis.miningproject20.models.ethermine.WorkerEthermine;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActivityWorkers extends AppCompatActivity implements IWorkersView {
+public class WorkersActivity extends AppCompatActivity  {
 
     List<ItemsRecyclerView> listItemsRecycler = new ArrayList<>();
     boolean flag = false;
     private RecyclerAdatapterItems adapterWorkers;
-    private final String MY_LOG = "MY_LOG: " + ActivityWorkers.class.getSimpleName();
+    private final String MY_LOG = "MY_LOG: " + WorkersActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,33 +45,20 @@ public class ActivityWorkers extends AppCompatActivity implements IWorkersView {
         adapterWorkers = new RecyclerAdatapterItems();
         recyclerView.setAdapter(adapterWorkers);
 
-        if(getIntent().getBooleanExtra(RepositoryViews.class.getSimpleName(), false)
-                && RepositoryViews.getInstance().getLastResponseEthermine() != null){
-
-            Log.d(MY_LOG, "getLastResponseEthermine() -> workers: " + RepositoryViews.getInstance().getLastResponseEthermine());
-            setWorkers((RepositoryViews.getInstance()
-                    .getLastResponseEthermine()
-                    .getWorkers()
-                    .getWorkersEthermine()));
-        }
+//        if(getIntent().getBooleanExtra(Repository.class.getSimpleName(), false)
+//                && Repository.getInstance().getLastResponsesEthermine().get(0) != null){
+//
+//            Log.d(MY_LOG, "getLastResponseEthermine() -> workers: " + Repository.getInstance().getLastResponsesEthermine().get(0));
+//            setNumberOfWorkersInBaseFragment((Repository.getInstance()
+//                    .getLastResponsesEthermine().get(0)
+//                    .getWorkers()
+//                    .getWorkersEthermine()));
+//        }
     }
 
-    @Override
     public void setWorkers(List<WorkerEthermine> workers) {
-        listItemsRecycler.addAll(workers);
-        adapterWorkers.addItemsToRecycler(listItemsRecycler);
+        adapterWorkers.addItemsToRecycler(workers);
         adapterWorkers.notifyDataSetChanged();
-    }
-
-    @Subscribe
-    public void getNotification(boolean notification){
-        if(!flag)
-            setWorkers(MyService.Repository.getInstance()
-                    .getLastResponseEthermine()
-                    .getWorkers()
-                    .getWorkersEthermine());
-
-        flag = true;
     }
 
     @Override
@@ -105,17 +88,5 @@ public class ActivityWorkers extends AppCompatActivity implements IWorkersView {
             default:
                 return true;
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
     }
 }

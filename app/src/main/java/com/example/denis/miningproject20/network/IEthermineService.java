@@ -4,6 +4,7 @@ package com.example.denis.miningproject20.network;
 
 import com.example.denis.miningproject20.models.ethermine.ResponseEthermine;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;

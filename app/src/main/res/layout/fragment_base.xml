@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.example.denis.miningproject20.views.MainActivity">
+
+        <TextView
+            android:id="@+id/tv_name_reported_hashrate_fragment_base"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:text="@string/reported_hashrate"
+            android:background="@color/colorReportedHashrate"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:textAlignment="center"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="@+id/guideline2"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_last_update_fragment_base" />
+
+        <TextView
+            android:id="@+id/tv_reported_hashrate_fragment_base"
+            android:background="@color/colorReportedHashrate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:text="@string/default_hashrate_0_h_s"
+            android:textAlignment="center"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/guideline2"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintTop_toBottomOf="@+id/tv_name_reported_hashrate_fragment_base"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="-6dp" />
+
+        <TextView
+            android:id="@+id/tv_name_average_hashrate_fragment_base"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:text="@string/average_hashrate"
+            android:textAlignment="center"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/colorAverageHashrate"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/tv_reported_hashrate_fragment_base"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_average_hashrate_fragment_base"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:text="@string/default_hashrate_0_h_s"
+            android:textAlignment="center"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="@+id/guideline2"
+            android:background="@color/colorAverageHashrate"
+            app:layout_constraintTop_toBottomOf="@+id/tv_name_average_hashrate_fragment_base"
+            android:layout_marginRight="8dp"
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="-23dp" />
+
+        <TextView
+            android:id="@+id/tv_name_current_hashrate_fragment_base"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            android:background="@color/colorCurrentHashrate"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:text="@string/current_hashrate"
+            android:textAlignment="center"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/guideline2"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_last_update_fragment_base" />
+
+        <TextView
+            android:id="@+id/tv_current_hashrate_fragment_base"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            android:background="@color/colorCurrentHashrate"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:text="@string/default_hashrate_0_h_s"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/tv_name_current_hashrate_fragment_base"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="-6dp"
+            app:layout_constraintHorizontal_bias="1.0" />
+
+        <TextView
+            android:id="@+id/tv_name_workers_fragment_base"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:textAlignment="center"
+            android:text="@string/string_workers"
+            android:layout_marginLeft="8dp"
+            android:background="@color/colorWorkers"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/guideline2"
+            android:layout_marginRight="8dp"
+            app:layout_constraintHorizontal_bias="1.0"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_current_hashrate_fragment_base" />
+
+        <TextView
+            android:id="@+id/tv_number_workers_fragment_base"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/default_string_total_workers"
+            android:layout_marginStart="8dp"
+            android:padding="8dp"
+            android:textAlignment="center"
+            android:layout_marginEnd="8dp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/tv_name_workers_fragment_base"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/guideline2"
+            android:background="@color/colorWorkers"
+            android:layout_marginRight="8dp"
+            app:layout_constraintHorizontal_bias="1.0"
+            android:layout_marginTop="-22dp" />
+
+        <TextView
+            android:id="@+id/textView17_fragment_base"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="Day"
+            app:layout_constraintHorizontal_bias="0.38"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="@+id/textView18_fragment_base"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_currency1_fragment_base"
+            android:layout_marginStart="8dp" />
+
+        <TextView
+            android:id="@+id/textView18_fragment_base"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Week"
+            app:layout_constraintHorizontal_bias="0.666"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="@+id/textView19_fragment_base"
+            app:layout_constraintTop_toBottomOf="@+id/textView17_fragment_base"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:id="@+id/textView19_fragment_base"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Mounth"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView18_fragment_base"
+            android:layout_marginStart="8dp" />
+
+        <TextView
+            android:id="@+id/tv_currency3_fragment_base"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:text="Currency3"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/graphEthermineHashrate" />
+
+        <TextView
+            android:id="@+id/tv_currency2_fragment_base"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="24dp"
+            android:text="Currency2"
+            app:layout_constraintRight_toLeftOf="@+id/tv_currency3_fragment_base"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/graphEthermineHashrate" />
+
+        <TextView
+            android:id="@+id/tv_currency1_fragment_base"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Currency1"
+            app:layout_constraintRight_toLeftOf="@+id/tv_currency2_fragment_base"
+            android:layout_marginRight="23dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/graphEthermineHashrate" />
+
+        <TextView
+            android:id="@+id/tv_value_currency1_day_fragment_base"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView17_fragment_base"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_currency1_fragment_base"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="@+id/tv_currency1_fragment_base"
+            app:layout_constraintHorizontal_bias="1.0" />
+
+
+        <TextView
+            android:id="@+id/tv_value_currency3_day_fragment_base"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:text="0.0000"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView17_fragment_base"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_currency3_fragment_base"
+            app:layout_constraintRight_toRightOf="@+id/tv_currency3_fragment_base"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintHorizontal_bias="0.666" />
+
+        <TextView
+            android:id="@+id/textView8_fragment_base"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_currency3_fragment_base"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="@+id/tv_currency3_fragment_base"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView18_fragment_base"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintHorizontal_bias="0.666" />
+
+        <TextView
+            android:id="@+id/textView9_fragment_base"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_currency3_fragment_base"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView19_fragment_base"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="@+id/tv_currency3_fragment_base"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintHorizontal_bias="0.666" />
+
+        <TextView
+            android:id="@+id/tv_value_currency1_week_fragment_base"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:text="0.0000"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView18_fragment_base"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_currency1_fragment_base"
+            app:layout_constraintRight_toRightOf="@+id/tv_currency1_fragment_base"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintHorizontal_bias="1.0" />
+
+        <TextView
+            android:id="@+id/textView3_fragment_base"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView19_fragment_base"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_currency1_fragment_base"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="@+id/tv_currency1_fragment_base"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintHorizontal_bias="1.0" />
+
+        <TextView
+            android:id="@+id/tv_value_currency2_day_fragment_base"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:text="0.0000"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView17_fragment_base"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_currency2_fragment_base"
+            app:layout_constraintRight_toRightOf="@+id/tv_currency2_fragment_base"
+            app:layout_constraintHorizontal_bias="0.666" />
+
+        <TextView
+            android:id="@+id/tv_value_currency2_week_fragment_base"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:text="0.0000"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView18_fragment_base"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_currency2_fragment_base"
+            app:layout_constraintRight_toRightOf="@+id/tv_currency2_fragment_base"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintHorizontal_bias="0.666" />
+
+        <TextView
+            android:id="@+id/textView6_fragment_base"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_currency2_fragment_base"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="@+id/tv_currency2_fragment_base"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView19_fragment_base"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintHorizontal_bias="0.666" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:id="@+id/graphEthermineHashrate"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_number_workers_fragment_base"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="parent" />
+
+
+        <android.support.constraint.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guideline2"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <TextView
+            android:id="@+id/tv_last_update_fragment_base"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="The last udate was at ..."
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.v4.widget.NestedScrollView>

@@ -4,6 +4,7 @@ package com.example.denis.miningproject20.network;
 
 import com.example.denis.miningproject20.models.ethermine.ResponseEthermine;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 
 /**
@@ -11,5 +12,5 @@ import retrofit2.Call;
  */
 
 public interface IEthermineAPI {
-    Call<ResponseEthermine> getResponseFromEthermine();
+    Call<ResponseEthermine> getResponseFromEthermine(String wallet);
 }

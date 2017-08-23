@@ -5,4 +5,5 @@ package com.example.denis.miningproject20.models;
  */
 
 public interface IResponse {
+
 }

@@ -1,6 +1,7 @@
 package com.example.denis.miningproject20.views.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,33 +23,30 @@ import java.util.Locale;
 
 public class RecyclerAdatapterItems extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    final int VIEW_TYPE_NAME_POOL = 0;
-    final int VIEW_TYPE_WORKER = 1;
-    private final String LOG = RecyclerAdatapterItems.class.getSimpleName();
+//    final int VIEW_TYPE_NAME_POOL = 1;
+    final int VIEW_TYPE_WORKER = 0;
+    private final String LOG_TAG = "MY_LOG: " + RecyclerAdatapterItems.class.getSimpleName();
 
-    List<ItemsRecyclerView> list = new ArrayList<>();
+    List<WorkerEthermine> list = new ArrayList<>();
 
-    public void addItemsToRecycler(List<ItemsRecyclerView> list){
+    public void addItemsToRecycler(List<WorkerEthermine> list){
         this.list.addAll(list);
-    }
-    public void addItemToRecycler(ItemsRecyclerView item){
-        list.add(item);
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
+        Log.d(LOG_TAG, "onCreateViewHolder => viewType = " + viewType);
         switch (viewType){
 
             case VIEW_TYPE_WORKER:
-                View worker = LayoutInflater.from(parent.getContext())
+                View vWorker = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_list_workers, parent, false);
-                return new WorkerViewHolder(worker);
+                return new WorkerViewHolder(vWorker);
 
-            case VIEW_TYPE_NAME_POOL:
-                View namePool = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_list_workers, parent, false);
-                return new NamePoolViewHolder(namePool);
+//            case VIEW_TYPE_NAME_POOL:
+//                View namePool = LayoutInflater.from(parent.getContext())
+//                    .inflate(R.layout.item_list_workers, parent, false);
+//                return new NamePoolViewHolder(namePool);
         }
         throw new IllegalArgumentException("onCreateViewHolder => No delegate found");
     }
@@ -59,14 +57,10 @@ public class RecyclerAdatapterItems extends RecyclerView.Adapter<RecyclerView.Vi
 
 // TODO change this when use more than one pool
 
-        if(holder instanceof WorkerViewHolder){
-
-            WorkerEthermine workerEthermine = null;
             WorkerViewHolder workerHolder = (WorkerViewHolder) holder;
 
-            ItemsRecyclerView item = (WorkerEthermine) list.get(position);
+            WorkerEthermine workerEthermine = list.get(position);
 
-            workerEthermine = (WorkerEthermine) item;
             workerHolder.tvCurrentHashRate.setText(workerEthermine.getHashrate());
             workerHolder.tvNameWorker.setText(workerEthermine.getWorker());
             workerHolder.tvReportedHashRate.setText(workerEthermine.getReportedHashRate());
@@ -80,45 +74,19 @@ public class RecyclerAdatapterItems extends RecyclerView.Adapter<RecyclerView.Vi
             workerHolder.tvLastSeen.setText(dateTime);
 
 
-        } else if (holder instanceof NamePoolViewHolder){
-
-            NamePoolViewHolder namePoolHolder = (NamePoolViewHolder) holder;
-            NameOfPools namePool = null;
-
-            for(ItemsRecyclerView item : list)
-                if(item instanceof NameOfPools) {
-                    namePool = (NameOfPools) item;
-                    break;
-                }
-
-            if(namePool == null)
-                throw new RuntimeException("Not finded name of pool");
-
-            namePoolHolder.tvNameWorker.setText(namePool.getNameOfPool());
-        }
-
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-
-        if (list.get(position) instanceof NameOfPools)
-            return VIEW_TYPE_NAME_POOL;
-
-        else if(list.get(position) instanceof WorkerEthermine)
-            return VIEW_TYPE_WORKER;
-
-        throw new IllegalArgumentException("getItemViewType => No delegate found.");
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return list == null ? 0 : list.size();
+    }
+
+    public void addWorkersEthermineToRecycler(List<WorkerEthermine> list) {
+        this.list.addAll(list);
     }
 
 
-
-    private class WorkerViewHolder extends RecyclerView.ViewHolder{
+    private static class WorkerViewHolder extends RecyclerView.ViewHolder{
 
         TextView tvNameWorker;
         TextView tvCurrentHashRate;
@@ -140,13 +108,13 @@ public class RecyclerAdatapterItems extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-    private class NamePoolViewHolder extends RecyclerView.ViewHolder{
-
-        TextView tvNameWorker;
-
-        NamePoolViewHolder(View itemView) {
-            super(itemView);
-            tvNameWorker = (TextView) itemView.findViewById(R.id.tv_name_worker);
-        }
-    }
+//    private class NamePoolViewHolder extends RecyclerView.ViewHolder{
+//
+//        TextView tvNameWorker;
+//
+//        NamePoolViewHolder(View itemView) {
+//            super(itemView);
+//            tvNameWorker = (TextView) itemView.findViewById(R.id.tv_name_worker);
+//        }
+//    }
 }
