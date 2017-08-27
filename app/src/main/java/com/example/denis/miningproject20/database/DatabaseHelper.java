@@ -3,7 +3,6 @@ package com.example.denis.miningproject20.database;
 import android.util.Log;
 
 import com.example.denis.miningproject20.App;
-import com.example.denis.miningproject20.models.ethermine.DaoMaster;
 import com.example.denis.miningproject20.models.ethermine.DaoSession;
 import com.example.denis.miningproject20.models.ethermine.MinerStatsEthermine;
 import com.example.denis.miningproject20.models.ethermine.MinerStatsEthermineDao;
@@ -18,14 +17,10 @@ import com.example.denis.miningproject20.models.ethermine.WorkerEthermineDao;
 import com.example.denis.miningproject20.models.ethermine.WorkersEthermine;
 import com.example.denis.miningproject20.service.MyService;
 
-import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.query.QueryBuilder;
 import org.greenrobot.greendao.query.WhereCondition;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.locks.Condition;
 
 /**
  * Created by denis on 22.07.17.
@@ -48,7 +43,6 @@ public class DatabaseHelper {
     private QueryBuilder<MinerStatsEthermine> minerStatsEthermineQuery;
     private QueryBuilder<WorkerEthermine> workerEthermineQuery;
     private QueryBuilder<RoundEthermine> roundEthermineQuery;
-    private QueryBuilder<WorkersEthermine> workersEthermineQuery;
 
     private DatabaseHelper(){;
         daoSession = App.getDaoSession();
@@ -95,29 +89,22 @@ public class DatabaseHelper {
      */
     public synchronized void putResponseEthermineToDatabase(ResponseEthermine response){
 
-        Log.d(LOG_TAG, "putResponseEthermine Test(Before putting): \n"
-                + "Number of elements in table MinerStatsEthermine = " + minerStatsEthermineQuery.list().size() + "\n"
-                + "Number of elements in table ResponseEthermine = " + responseEthermineQuery.list().size() + "\n"
-                + "Number of elements in table RoundEthermine = " + roundEthermineQuery.list().size() + "\n"
-                + "Number of elements in table SettingsEthermine = " + settingsEthermineQuery.list().size() + "\n"
-                + "Number of elements in table WorkerEthermine = " + workerEthermineQuery.list().size() + "\n");
-
-        Log.d(LOG_TAG, "The number of the responsesEthermine in database: " + getNumberRsponsesEthermineInDB(response.getAddress()));
+        Log.d(LOG_TAG, "putResponseEthermine Test(Before putting)");
+        Log.d(LOG_TAG, "The number of the responsesEthermine in database: " + getNumberRsponsesEthermineInDB());
 
         // set to db the MinerStats
         Long maxMinerStatsId = minerStatsEthermineDao.insert(response.getMinerStats());
         response.setMinerStatsId(maxMinerStatsId);
-        Log.d(LOG_TAG, "Id in new minerStats object: " + maxMinerStatsId
-                + "; number of objects in this table = " + minerStatsEthermineQuery.list().size());
 
         // set to db the settings
         Long maxSettingsId = settingsEthermineDao.insert(response.getSettings());
         response.setSettingsId(maxSettingsId);
-        Log.d(LOG_TAG, "Id in new settings object: " + maxSettingsId
-                + "; number of objects in this table = " + settingsEthermineQuery.list().size());
 
         // Set to db the response
         Long responseId = responseEthermineDao.insert(response);
+        Log.d(LOG_TAG, "responseId after inserting the response to db = " + responseId);
+        Log.d(LOG_TAG, "The number of the responsesEthermine in database: " + getNumberRsponsesEthermineInDB());
+        Log.d(LOG_TAG, "The responseEthermine from db with id = " + responseId + ": " + responseEthermineDao.load(responseId));
 
         // Set to db the rounds
         for(RoundEthermine round : response.getRounds())
@@ -125,7 +112,6 @@ public class DatabaseHelper {
         roundEthermineDao.insertInTx(response.getRounds());
 
         // Set to db the workers
-        Log.d(LOG_TAG, "Number of workers in response = " + response.getWorkers().getWorkersEthermine().size());
         for(WorkerEthermine worker: response.getWorkers().getWorkersEthermine())
             worker.setResponseId(responseId);
         workerEthermineDao.insertInTx(response.getWorkers().getWorkersEthermine());
@@ -138,9 +124,8 @@ public class DatabaseHelper {
                 + "Number of elements in table WorkerEthermine = " + workerEthermineQuery.list().size() + "\n");
     }
 
-    private int getNumberRsponsesEthermineInDB(String wallet) {
+    private int getNumberRsponsesEthermineInDB() {
         List<ResponseEthermine> list = responseEthermineQuery
-                .where(ResponseEthermineDao.Properties.Address.eq(wallet))
                 .list();
         return list.size();
     }
@@ -150,32 +135,56 @@ public class DatabaseHelper {
         Log.d(LOG_TAG, "Get last responses from Ethermine.");
 
         // current number of wallet 2
-        List<ResponseEthermine> list = new ArrayList<>();
+        List<ResponseEthermine> list;
 
-        Log.d(LOG_TAG, "Test. Number of elements with first wallet: " + getNumberRsponsesEthermineInDB(MyService.FIRST_WALLET_ETHERMINE));
+        Log.d(LOG_TAG, "Test. Number of elements in table ResponseEthermine" +
+                ": " + getNumberRsponsesEthermineInDB());
 
         // TODO Здесь в where берутся последние два ответа. Выбираются два ответа с наибольшим id. Изменить это.
-        responseEthermineQuery
-                    .or(new WhereCondition.StringCondition(ResponseEthermineDao.TABLENAME + "._id = (SELECT max(_id) FROM " + ResponseEthermineDao.TABLENAME
-                            + " WHERE ADDRESS = \"" + MyService.FIRST_WALLET_ETHERMINE + "\")"),
-                    new WhereCondition.StringCondition(ResponseEthermineDao.TABLENAME + "._id = (SELECT max(_id) FROM " + ResponseEthermineDao.TABLENAME
-                            + " WHERE ADDRESS = \"" + MyService.SECOND_WALLET_ETHERMINE + "\")"));
+        QueryBuilder<ResponseEthermine> lastResponsesEthermineFirstWalletQuery = responseEthermineDao.queryBuilder()
+                    .where(new WhereCondition.StringCondition(
+                            "\"RESPONSE_ETHERMINE._id\" = (SELECT max(\"RESPONSE_ETHERMINE._id\") FROM " + ResponseEthermineDao.TABLENAME
+                            + " WHERE \"RESPONSE_ETHERMINE.ADDRESS\" = \"" + MyService.FIRST_WALLET_ETHERMINE + "\")"));
 
-        list = responseEthermineQuery.list();
+        QueryBuilder<ResponseEthermine> lastResponsesEthermineSecondWalletQuery = responseEthermineDao.queryBuilder()
+                .where(new WhereCondition.StringCondition(
+                "\"RESPONSE_ETHERMINE._id\" = (SELECT max(\"RESPONSE_ETHERMINE._id\") FROM " + ResponseEthermineDao.TABLENAME
+                        + " WHERE RESPONSE_ETHERMINE.\"ADDRESS\" = \"" + MyService.SECOND_WALLET_ETHERMINE + "\")"));
+
+        Log.d(LOG_TAG, "Last response with first wallet(" + MyService.FIRST_WALLET_ETHERMINE+")");
+        for(ResponseEthermine response : lastResponsesEthermineFirstWalletQuery.list())
+            response.checkResponse();
+
+        Log.d(LOG_TAG, "Last response with second wallet(" + MyService.SECOND_WALLET_ETHERMINE+")");
+        for(ResponseEthermine response : lastResponsesEthermineSecondWalletQuery.list())
+            response.checkResponse();
+
+//        Log.d(LOG_TAG, "All responses:");
+//        for(ResponseEthermine response : getAllResponsesEthermine())
+//            response.checkResponse();
+
+
+        list = lastResponsesEthermineFirstWalletQuery.list();
 
         Log.d(LOG_TAG, "Current list of responses. Size = " + list.size());
 
         if(list.size() > 0)
-            buildResponseEthermine(list);
+            buildResponsesEthermine(list);
         else Log.d(LOG_TAG, "HEEEEELP, problem with db.");
 
         return list;
     }
 
-    private void buildResponseEthermine(List<ResponseEthermine> list) {
+    public List<ResponseEthermine> getAllResponsesEthermine() {
+        List<ResponseEthermine> list = responseEthermineQuery.list();
+        buildResponsesEthermine(list);
+        return list;
+    }
+
+    private void buildResponsesEthermine(List<ResponseEthermine> list) {
         for (ResponseEthermine response : list) {
 
-            Log.d(LOG_TAG, "Current element in buildResponseEthermine before join:");
+            Log.d(LOG_TAG, "Current element in buildResponsesEthermine before join:");
             response.checkResponse();
 
                 // Join one-to-one
@@ -201,7 +210,7 @@ public class DatabaseHelper {
                         .where(WorkerEthermineDao.Properties.ResponseId.eq(response.getId()));
                 response.setWorkers(new WorkersEthermine(tmpQueryWorkers.list()));
 
-            Log.d(LOG_TAG, "Current element in buildResponseEthermine after join:");
+            Log.d(LOG_TAG, "Current element in buildResponsesEthermine after join:");
             response.checkResponse();
         }
     }
@@ -211,8 +220,12 @@ public class DatabaseHelper {
     }
 
     public List<ResponseEthermine> getResponsesEthermine(String walletEthermine) {
-        return responseEthermineQuery
+
+        List<ResponseEthermine> list =
+                responseEthermineQuery
                 .where(ResponseEthermineDao.Properties.Address.eq(walletEthermine))
                 .list();
+        buildResponsesEthermine(list);
+        return list;
     }
 }

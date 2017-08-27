@@ -8,11 +8,7 @@ import com.github.mikephil.charting.data.LineData;
  */
 
 public interface IGraphPresenter {
-    LineData getAvgHashrateForGraphHashrates();
-    LineData getCurrentHashrateForGraphHashrates();
-    LineData getReportedHashrateForGraphHashrates();
-    BarData getValidSharesForGraphShares();
-    BarData getInvalidSharesForGraphShares();
-    BarData getStaleSharesForGraphShares();
     LineData getDataForGraphWorkers();
+    LineData getDataForGraphHashrate();
+    BarData getDataForBarGraphShares();
 }

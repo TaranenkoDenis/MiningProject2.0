@@ -1,15 +1,12 @@
 package com.example.denis.miningproject20.views.adapters;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.denis.miningproject20.ItemsRecyclerView;
 import com.example.denis.miningproject20.R;
-import com.example.denis.miningproject20.models.NameOfPools;
 import com.example.denis.miningproject20.models.ethermine.WorkerEthermine;
 
 import java.text.SimpleDateFormat;
@@ -35,7 +32,6 @@ public class RecyclerAdatapterItems extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.d(LOG_TAG, "onCreateViewHolder => viewType = " + viewType);
         switch (viewType){
 
             case VIEW_TYPE_WORKER:

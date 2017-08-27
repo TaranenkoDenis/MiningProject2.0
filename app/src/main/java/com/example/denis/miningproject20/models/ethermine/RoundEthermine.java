@@ -21,7 +21,8 @@ import org.greenrobot.greendao.annotation.Transient;
 public class RoundEthermine implements Serializable{
 
     @Id(autoincrement = true)
-    private Long id;
+    private Long idInDatabase;
+
     @SerializedName("id")
     @Expose
     private Long idInResponse;
@@ -51,10 +52,14 @@ public class RoundEthermine implements Serializable{
     @Generated(hash = 79833876)
     private transient RoundEthermineDao myDao;
 
-    @Generated(hash = 1991953085)
-    public RoundEthermine(Long id, Long idInResponse, String miner, Long block, Long work,
-            Long amount, Long processed, Long responseId) {
-        this.id = id;
+    @Generated(hash = 1655214804)
+    public RoundEthermine() {
+    }
+
+    @Generated(hash = 1208430219)
+    public RoundEthermine(Long idInDatabase, Long idInResponse, String miner, Long block,
+            Long work, Long amount, Long processed, Long responseId) {
+        this.idInDatabase = idInDatabase;
         this.idInResponse = idInResponse;
         this.miner = miner;
         this.block = block;
@@ -62,10 +67,6 @@ public class RoundEthermine implements Serializable{
         this.amount = amount;
         this.processed = processed;
         this.responseId = responseId;
-    }
-
-    @Generated(hash = 1655214804)
-    public RoundEthermine() {
     }
 
     public String getMiner() {
@@ -76,13 +77,6 @@ public class RoundEthermine implements Serializable{
         this.miner = miner;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getBlock() {
         return block;
@@ -166,6 +160,14 @@ public class RoundEthermine implements Serializable{
 
     public void setIdInResponse(Long idInResponse) {
         this.idInResponse = idInResponse;
+    }
+
+    public Long getIdInDatabase() {
+        return idInDatabase;
+    }
+
+    public void setIdInDatabase(Long idInDatabase) {
+        this.idInDatabase = idInDatabase;
     }
 
     /** called by internal mechanisms, do not call yourself. */

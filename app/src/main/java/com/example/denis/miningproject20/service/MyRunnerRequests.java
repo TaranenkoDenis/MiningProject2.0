@@ -2,15 +2,13 @@ package com.example.denis.miningproject20.service;
 
 import android.util.Log;
 
-import com.example.denis.miningproject20.database.DatabaseHelper;
 import com.example.denis.miningproject20.models.dwarfpool.ResponseDwarfpool;
 import com.example.denis.miningproject20.models.ethermine.ResponseEthermine;
-import com.example.denis.miningproject20.network.ApiEthermine;
+import com.example.denis.miningproject20.network.RestClientEthermine;
 import com.example.denis.miningproject20.network.IEthermineAPI;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -73,12 +71,7 @@ public class MyRunnerRequests implements Runnable{
     private void requestToEthermine(String wallet) {
         boolean result;
         Log.d(LOG_TAG, "requestToEthermine(), wallet = " + wallet);
-        IEthermineAPI ethermineAPI = new ApiEthermine();
-
-        Log.d(LOG_TAG, "Before Call<ResponseEthermine> callEthermine = ethermineAPI.getResponseFromEthermine(wallet)");
-
-        // TODO здесь что-то проихсодит, ибо следующий лог не выводится.
-        Log.d(LOG_TAG, "After Call<ResponseEthermine> callEthermine = ethermineAPI.getResponseFromEthermine(wallet)");
+        IEthermineAPI ethermineAPI = RestClientEthermine.getInstance();
 
         ethermineAPI.getResponseFromEthermine(wallet).enqueue(new Callback<ResponseEthermine>() {
             @Override

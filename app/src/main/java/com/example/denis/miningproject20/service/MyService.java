@@ -30,8 +30,8 @@ public class MyService extends Service {
 
     private final static String LOG_TAG = "MY_LOG: " + MyService.class.getSimpleName();
 
-    public final static String FIRST_WALLET_ETHERMINE = "0x8f7ae5c3883f1079a8c3280ef97aabdd5e9a7960";
-    public final static String SECOND_WALLET_ETHERMINE = "0xde088812a9c5005b0dc8447b37193c9e8b67a1ff";
+    public final static String FIRST_WALLET_ETHERMINE = "8f7ae5c3883f1079a8c3280ef97aabdd5e9a7960";
+    public final static String SECOND_WALLET_ETHERMINE = "de088812a9c5005b0dc8447b37193c9e8b67a1ff";
 
     public static final int ID_ETHERMINE = 1;
     public static final int ID_DWARFPOOL = 2;
@@ -185,7 +185,6 @@ public class MyService extends Service {
 
     public void testDB(){
         Log.d(LOG_TAG, "Test. DatabaseHelper instance = " + databaseHelper);
-        Log.d(LOG_TAG, "Test. Path of database = " + databaseHelper.getDatabaseName());
         List<ResponseEthermine> list = databaseHelper.getLastResponsesEthermine();
         for(ResponseEthermine response : list)
             response.checkResponse();

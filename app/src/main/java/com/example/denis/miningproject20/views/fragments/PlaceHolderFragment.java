@@ -4,9 +4,7 @@ package com.example.denis.miningproject20.views.fragments;
  * Created by denis on 30.07.17.
  */
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,11 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.denis.miningproject20.R;
 import com.example.denis.miningproject20.database.DatabaseHelper;
 import com.example.denis.miningproject20.models.ethermine.ResponseEthermine;
 import com.example.denis.miningproject20.models.ethermine.WorkerEthermine;
+import com.example.denis.miningproject20.service.MyService;
 import com.example.denis.miningproject20.views.ConverterHashrate;
 import com.example.denis.miningproject20.views.GraphActivity;
 import com.example.denis.miningproject20.views.adapters.RecyclerAdatapterItems;
@@ -31,6 +31,10 @@ import com.github.mikephil.charting.data.LineDataSet;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -102,7 +106,6 @@ public class PlaceHolderFragment extends Fragment {
 
                 setLastResponsesEthermine(databaseHelper.getLastResponsesEthermine());
 
-//                tvNameWorker.setOnClickListener(myClickListener);
 //                tvNameCurrentHashrate.setOnClickListener(myClickListener);
 //                tvNameAverageHashrate.setOnClickListener(myClickListener);
 //                tvNameReportedHashrate.setOnClickListener(myClickListener);
@@ -116,9 +119,11 @@ public class PlaceHolderFragment extends Fragment {
                 tvLastUpdate = (TextView) rootView.findViewById(R.id.tv_last_update);
 
                 lineChart = (LineChart) rootView.findViewById(R.id.graphEthermineHashrate);
-
-                lineChart.setOnClickListener(v -> {
-                    startActivity(new Intent(getContext(), GraphActivity.class));
+                lineChart.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getContext(), GraphActivity.class));
+                    }
                 });
                 lineChart.setDoubleTapToZoomEnabled(false);
                 lineChart.setDragEnabled(false);

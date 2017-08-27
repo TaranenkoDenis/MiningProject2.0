@@ -95,7 +95,7 @@ public class PresenterStartActivity {
 
     public static PresenterStartActivity getCurrentInstance(){
         if(currentInstance == null)
-            throw new RuntimeException("AAAAAAAAAAAAAAAAAAAAAAAAA");
+            throw new RuntimeException();
         return currentInstance;
     }
 
@@ -106,14 +106,10 @@ public class PresenterStartActivity {
         Log.d(LOG_TAG, "Test. Instance of database = " + DatabaseHelper.getInstance()
                 + "\nPath of database = " + mWeakActivity.get().getDatabasePath(DatabaseHelper.getInstance().getDatabaseName()));
 
-        Log.d(LOG_TAG, "Test of responses from db in PresenterStartActivity: listOfLastResponsesEthermine = "
-                + listOfLastResponsesEthermine);
 
-        if(listOfLastResponsesEthermine != null) {
-            Log.d(LOG_TAG, "Test of responses from db in PresenterStartActivity: ");
-            for (ResponseEthermine response : listOfLastResponsesEthermine)
-                response.checkResponse();
-        }
+        Log.d(LOG_TAG, "Test of responses from db in PresenterStartActivity: ");
+        for (ResponseEthermine response : listOfLastResponsesEthermine)
+            response.checkResponse();
 
         try {
             Message msg = Message.obtain(null, MyService.COMMAND_CHECK_DB);
@@ -122,7 +118,6 @@ public class PresenterStartActivity {
             e.printStackTrace();
         }
     }
-
 
     private class IncomingMessengerFromService extends Handler {
 

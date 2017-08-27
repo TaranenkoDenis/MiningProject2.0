@@ -9,7 +9,6 @@ import org.greenrobot.greendao.annotation.Id;
 import java.io.Serializable;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
-import org.greenrobot.greendao.annotation.Transient;
 
 /**
  * Created by denis on 29.06.17.

@@ -6,7 +6,6 @@ import com.example.denis.miningproject20.database.DatabaseHelper;
 import com.example.denis.miningproject20.models.ethermine.ResponseEthermine;
 import com.example.denis.miningproject20.service.MyService;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -18,15 +17,14 @@ import java.util.TreeMap;
 public class Repository {
 
     private static final String LOG_TAG = "MY_LOG: " + Repository.class.getSimpleName();
+    private static final DatabaseHelper dbHelper = DatabaseHelper.getInstance();
 
-    public static Map<Long, Integer> getNumberAliveWorkersEthermine() {
+    public static Map<Long, Integer> getNumberAliveWorkersEthermine(String wallet) {
 
         Map<Long, Integer> result = new TreeMap<>();
 
-        DatabaseHelper dbHelper = DatabaseHelper.getInstance();
-
         List<ResponseEthermine> responsesEthermineFirstWaller =
-                dbHelper.getResponsesEthermine(MyService.FIRST_WALLET_ETHERMINE);
+                dbHelper.getResponsesEthermine(wallet);
         // CHECK
         Log.d(LOG_TAG, "getNumberAliveWorkersEthermine => responses from db, first wallet: ");
         for(ResponseEthermine response : responsesEthermineFirstWaller) {

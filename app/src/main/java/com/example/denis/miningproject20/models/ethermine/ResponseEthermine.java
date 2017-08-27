@@ -10,7 +10,6 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
@@ -242,7 +241,6 @@ public class ResponseEthermine implements IResponse, Serializable {
                 + "avgHashrate = " + avgHashrate + ",\n"
                 + "settingsId = " + settingsId + ",\n"
                 + "minerStatsId = " + minerStatsId + ",\n"
-//                + "size of rounds = " + rounds.size() + ",\n"
                 + "size of workers = " + workers + ",\n"
                 + "settings = " + settings + ",\n"
                 + "minerStats = " + minerStats + ",\n");
