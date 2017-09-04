@@ -116,8 +116,12 @@ public class MyService extends Service {
         }
 
         Log.d(LOG_TAG, "Service was started. Test of Database:");
-        for(ResponseEthermine response : DatabaseHelper.getInstance().getLastResponsesEthermine()){
-            response.checkResponse();
+        List<ResponseEthermine> list = DatabaseHelper.getInstance().getLastResponsesEthermine();
+        if(list.size() > 0) {
+            Log.d(LOG_TAG, "Service was started. list = " + list);
+            for (ResponseEthermine response : list) {
+                response.checkResponse();
+            }
         }
         startWorking();
         return Service.START_STICKY;
@@ -186,6 +190,7 @@ public class MyService extends Service {
     public void testDB(){
         Log.d(LOG_TAG, "Test. DatabaseHelper instance = " + databaseHelper);
         List<ResponseEthermine> list = databaseHelper.getLastResponsesEthermine();
+
         for(ResponseEthermine response : list)
             response.checkResponse();
     }

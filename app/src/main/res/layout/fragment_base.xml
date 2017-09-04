@@ -8,7 +8,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.denis.miningproject20.views.MainActivity">
+        tools:context="com.example.denis.miningproject20.views.activities.MainActivity">
 
         <TextView
             android:id="@+id/tv_name_reported_hashrate_fragment_base"

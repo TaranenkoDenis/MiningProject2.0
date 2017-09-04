@@ -1,4 +1,4 @@
-package com.example.denis.miningproject20.views;
+package com.example.denis.miningproject20.views.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -57,7 +57,7 @@ public class WorkersActivity extends AppCompatActivity  {
     }
 
     public void setWorkers(List<WorkerEthermine> workers) {
-        adapterWorkers.addItemsToRecycler(workers);
+        adapterWorkers.setWorkersEthermineToRecycler(workers);
         adapterWorkers.notifyDataSetChanged();
     }
 

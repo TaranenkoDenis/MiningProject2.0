@@ -26,10 +26,6 @@ public class RecyclerAdatapterItems extends RecyclerView.Adapter<RecyclerView.Vi
 
     List<WorkerEthermine> list = new ArrayList<>();
 
-    public void addItemsToRecycler(List<WorkerEthermine> list){
-        this.list.addAll(list);
-    }
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType){
@@ -77,8 +73,10 @@ public class RecyclerAdatapterItems extends RecyclerView.Adapter<RecyclerView.Vi
         return list == null ? 0 : list.size();
     }
 
-    public void addWorkersEthermineToRecycler(List<WorkerEthermine> list) {
+    public void setWorkersEthermineToRecycler(List<WorkerEthermine> list) {
+        this.list.clear();
         this.list.addAll(list);
+        notifyDataSetChanged();
     }
 
 

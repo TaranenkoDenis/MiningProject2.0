@@ -157,7 +157,7 @@ public class MainPresenter {
         bound = false;
     }
 
-    interface IMainActivityView {
+    public interface IMainActivityView {
         void setNumberOfWorkers(long currentNumber, long generalNumber);
         void setLastUpdateTime(String timeOfTheLastUpdate);
         void setHashRates(String hashRate, String avgHashRate, String reportedHashRate);

@@ -1,4 +1,4 @@
-package com.example.denis.miningproject20.views;
+package com.example.denis.miningproject20.views.activities;
 
 
 import android.annotation.TargetApi;

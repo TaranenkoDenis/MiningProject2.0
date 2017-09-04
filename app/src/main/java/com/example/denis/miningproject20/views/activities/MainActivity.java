@@ -1,4 +1,4 @@
-package com.example.denis.miningproject20.views;
+package com.example.denis.miningproject20.views.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.denis.miningproject20.R;
+import com.example.denis.miningproject20.views.MainPresenter;
 
 public class MainActivity extends AppCompatActivity implements MainPresenter.IMainActivityView {
 

@@ -1,4 +1,4 @@
-package com.example.denis.miningproject20.views;
+package com.example.denis.miningproject20.views.activities;
 
 import android.content.Context;
 import android.support.design.widget.FloatingActionButton;
@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -17,6 +16,7 @@ import com.example.denis.miningproject20.R;
 import com.example.denis.miningproject20.models.ethermine.ResponseEthermine;
 import com.example.denis.miningproject20.views.adapters.SectionsPagerAdapter;
 import com.example.denis.miningproject20.views.fragments.PlaceHolderFragment;
+import com.example.denis.miningproject20.views.presenters.IPresenterStartActivity;
 import com.example.denis.miningproject20.views.presenters.PresenterStartActivity;
 
 import java.util.List;
@@ -101,29 +101,13 @@ public class StartActivity extends AppCompatActivity
     }
 
     @Override
-    public void setLastResponses(List<ResponseEthermine> listOfResponses) {
-
-    }
-
-    @Override
-    public void setCurrency() {
-
-    }
-
-    @Override
-    public void setDataForGraphic() {
-
-    }
-
-    @Override
     public Context getContext() {
         return this;
     }
 
     @Override
-    public void setNumberOfWorkersInBaseFragment() {
-
-
+    public PresenterStartActivity getPresenter() {
+        return mPresenter;
     }
 
     void toAttachFragment(PlaceHolderFragment currentFragment, int position){

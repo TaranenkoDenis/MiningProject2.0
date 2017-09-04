@@ -4,6 +4,7 @@ package com.example.denis.miningproject20.views.fragments;
  * Created by denis on 30.07.17.
  */
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,33 +14,27 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.denis.miningproject20.R;
 import com.example.denis.miningproject20.database.DatabaseHelper;
-import com.example.denis.miningproject20.models.ethermine.ResponseEthermine;
-import com.example.denis.miningproject20.models.ethermine.WorkerEthermine;
 import com.example.denis.miningproject20.service.MyService;
 import com.example.denis.miningproject20.views.ConverterHashrate;
-import com.example.denis.miningproject20.views.GraphActivity;
+import com.example.denis.miningproject20.views.activities.GraphActivity;
 import com.example.denis.miningproject20.views.adapters.RecyclerAdatapterItems;
+import com.example.denis.miningproject20.views.presenters.PresenterStartActivity;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 /**
  * A placeholder fragment containing a simple view.
  */
-public class PlaceHolderFragment extends Fragment {
+public class PlaceHolderFragment extends Fragment implements IListenerUpdatesFromServers {
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -50,17 +45,18 @@ public class PlaceHolderFragment extends Fragment {
     private final int FRAGMENT_BASE = 1;
     private final int FRAGMENT_WORKERS = 2;
 
-    private PlaceHolderFragment currentFragment;
-    private final String MY_LOG = "MY_LOG: " + PlaceHolderFragment.class.getSimpleName();
-    private List<ResponseEthermine> responsesEthermine;
-
     private TextView tvLastUpdate;
     private TextView tvAverageHashrate;
     private TextView tvCurrentHashrate;
     private TextView tvReportedHashrate;
     private TextView tvWorkers;
     private LineChart lineChart;
-    private int currentPosition;
+    private Spinner spinner;
+
+    private PresenterStartActivity.IStartActivity activity;
+    private PresenterStartActivity mPresenter;
+
+    private static final DatabaseHelper databaseHelper = DatabaseHelper.getInstance();
 
     RecyclerAdatapterItems adapterWorkers;
 
@@ -85,69 +81,29 @@ public class PlaceHolderFragment extends Fragment {
         Log.d(LOG_TAG, "onCreateView(): current fragment = " + getArguments().getInt(ARG_SECTION_NUMBER));
 
         View defaultRootView = inflater.inflate(R.layout.fragment_start, container, false);
+        mPresenter = activity.getPresenter();
         View rootView = null;
 
-        DatabaseHelper databaseHelper = DatabaseHelper.getInstance();
-
-        switch (getArguments().getInt(ARG_SECTION_NUMBER)){
+        switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
 
             case FRAGMENT_BASE:
-                currentPosition = FRAGMENT_BASE;
                 rootView = inflater.inflate(R.layout.fragment_base, container, false);
 
-                TextView tvNameWorker = (TextView) rootView.findViewById(R.id.tv_name_workers_fragment_base);
-                TextView tvNameCurrentHashrate = (TextView) rootView.findViewById(R.id.tv_name_current_hashrate_fragment_base);
-                TextView tvNameAverageHashrate = (TextView) rootView.findViewById(R.id.tv_name_average_hashrate_fragment_base);
-                TextView tvNameReportedHashrate = (TextView) rootView.findViewById(R.id.tv_name_reported_hashrate_fragment_base);
+                tvLastUpdate = (TextView) rootView.findViewById(R.id.tv_last_update_fragment_base);
                 tvAverageHashrate = (TextView) rootView.findViewById(R.id.tv_average_hashrate_fragment_base);
                 tvCurrentHashrate = (TextView) rootView.findViewById(R.id.tv_current_hashrate_fragment_base);
                 tvReportedHashrate = (TextView) rootView.findViewById(R.id.tv_reported_hashrate_fragment_base);
                 tvWorkers = (TextView) rootView.findViewById(R.id.tv_number_workers_fragment_base);
-
-                setLastResponsesEthermine(databaseHelper.getLastResponsesEthermine());
-
-//                tvNameCurrentHashrate.setOnClickListener(myClickListener);
-//                tvNameAverageHashrate.setOnClickListener(myClickListener);
-//                tvNameReportedHashrate.setOnClickListener(myClickListener);
-//                tvAverageHashrate.setOnClickListener(myClickListener);
-//                tvCurrentHashrate.setOnClickListener(myClickListener);
-//                tvReportedHashrate.setOnClickListener(myClickListener);
-//                tvWorkers.setOnClickListener(myClickListener);
-
-//                tvWorkers.setOnClickListener();
-
-                tvLastUpdate = (TextView) rootView.findViewById(R.id.tv_last_update);
-
                 lineChart = (LineChart) rootView.findViewById(R.id.graphEthermineHashrate);
-                lineChart.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivity(new Intent(getContext(), GraphActivity.class));
-                    }
-                });
-                lineChart.setDoubleTapToZoomEnabled(false);
-                lineChart.setDragEnabled(false);
-                lineChart.setScaleEnabled(false);
-                lineChart.setPinchZoom(false);
 
-                List<Entry> series = new ArrayList<>();
-                series.add(new Entry(0, 1));
-                series.add(new Entry(1, 5));
-                series.add(new Entry(2, 3));
-                series.add(new Entry(3, 2));
-                series.add(new Entry(4, 6));
-                LineDataSet dataSet = new LineDataSet(series, "Hashrate");
-                dataSet.setColor(getResources().getColor(R.color.colorCurrentHashrate));
-                LineData lineData = new LineData(dataSet);
-                lineChart.setData(lineData);
-                lineChart.invalidate();
+                initBaseFragment();
 
                 break;
 
             case FRAGMENT_WORKERS:
-                currentPosition = FRAGMENT_WORKERS;
-
                 rootView = inflater.inflate(R.layout.fragment_workers, container, false);
+                spinner = (Spinner) rootView.findViewById(R.id.spiner_choice_of_wallet);
+                TextView tv_namePool = (TextView) rootView.findViewById(R.id.tv_name_pool);
 
                 final RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_for_workers);
                 final LinearLayoutManager verticalLayoutManager =
@@ -157,97 +113,111 @@ public class PlaceHolderFragment extends Fragment {
                 recyclerView.setLayoutManager(verticalLayoutManager);
                 adapterWorkers = new RecyclerAdatapterItems();
 
-                List<WorkerEthermine> listWorkers = new ArrayList<>();
-                for (ResponseEthermine response : databaseHelper.getLastResponsesEthermine())
-                    listWorkers.addAll(response.getWorkers().getWorkersEthermine());
-
-                adapterWorkers.addItemsToRecycler(listWorkers);
-
                 recyclerView.setAdapter(adapterWorkers);
+
+                List<String> dataForSpiner = new ArrayList<>();
+                dataForSpiner.add(MyService.FIRST_WALLET_ETHERMINE);
+                dataForSpiner.add(MyService.SECOND_WALLET_ETHERMINE);
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, dataForSpiner);
+                spinner.setAdapter(adapter);
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                        adapterWorkers.setWorkersEthermineToRecycler(
+                                mPresenter.getWorkersEthermineFromResponse(dataForSpiner.get(position)));
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+
                 break;
         }
 
-
-        if(rootView == null)
+        if (rootView == null)
             return defaultRootView;
 
         return rootView;
     }
 
-    public void setLastResponsesEthermine(List<ResponseEthermine> listOfLastResponsesEthermine) {
-        responsesEthermine = listOfLastResponsesEthermine;
-        refillFragmentBaseView();
+    private void initBaseFragment() {
+        // TODO Фрагмент не должен содержать последние ответы. Это должно происходить на стороне презентера.
+        lineChart.setOnClickListener(v -> startActivity(new Intent(getContext(), GraphActivity.class)));
+
+        lineChart.setDoubleTapToZoomEnabled(false);
+        lineChart.setDragEnabled(false);
+        lineChart.setScaleEnabled(false);
+        lineChart.setPinchZoom(false);
+
+        Log.d(LOG_TAG, "Now i will try to call refillFragmentBase()");
+        refillFragmentBase();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            activity = (PresenterStartActivity.IStartActivity) context;
+        } catch (ClassCastException ex) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
     }
 
     private void refillFragmentWorkers() {
 
-        if (responsesEthermine != null ){
-            List<WorkerEthermine> list = new ArrayList<>();
-            for (ResponseEthermine response : responsesEthermine)
-                list.addAll(response.getWorkers().getWorkersEthermine());
-            for (WorkerEthermine workerEthermine : list)
-                Log.d(LOG_TAG, "Name of worker before adding to adapterWorkers: " + workerEthermine.getWorker());
-            adapterWorkers.addWorkersEthermineToRecycler(list);
-            adapterWorkers.notifyDataSetChanged();
-        }
+//        if (responsesEthermine != null) {
+//            List<WorkerEthermine> list = new ArrayList<>();
+//            for (ResponseEthermine response : responsesEthermine)
+//                list.addAll(response.getWorkers().getWorkersEthermine());
+//            for (WorkerEthermine workerEthermine : list)
+//                Log.d(LOG_TAG, "Name of worker before adding to adapterWorkers: " + workerEthermine.getWorker());
+//            adapterWorkers.setWorkersEthermineToRecycler(list);
+//            adapterWorkers.notifyDataSetChanged();
+//        }
     }
 
-    private void refillFragmentBaseView() {
+    private void refillFragmentBase() {
+        ConverterHashrate converter = ConverterHashrate.getInstance();
 
-        if (responsesEthermine.size() > 0) {
+        Log.d(LOG_TAG, "refillFragmentBase() 1");
+        String last_update = getResources().getString(R.string.last_update_text) + mPresenter.getTimeOfTheLastUpdate();
 
-            Log.d(LOG_TAG, "refillFragmentBaseView()");
-            Long totalNumberOfWorkers = 0L;
-            Long liveWorkers = 0L;
-            Double avgHashRate = 0D;
-            Double reportedHashRate = 0D;
-            Double currentHashRate = 0D;
+        String avgHashrate = converter.convertDoubleHashRateToString(mPresenter.getHashrateFromTheLastUpdates(PresenterStartActivity.AVG_HASHRATE));
+        String currentHashrate = converter.convertDoubleHashRateToString(mPresenter.getHashrateFromTheLastUpdates(PresenterStartActivity.CURRENT_HASHRATE));
+        String reportedHashrate = converter.convertDoubleHashRateToString(mPresenter.getHashrateFromTheLastUpdates(PresenterStartActivity.REPORTED_HASHRATE));
 
-            String strAvgHashRate;
-            String strReportedHashRate;
-            String strCurrentHashRate;
+        setHashRates(avgHashrate, currentHashrate, reportedHashrate);
 
-            ConverterHashrate converter = ConverterHashrate.getInstance();
-            // TODO что, если по одному кошельку у пользователя средний хэшрейт в гига измеряется, а по другому в мега
+        tvLastUpdate.setText(last_update);
+        tvWorkers.setText(mPresenter.getNumberOfWrokersFromTheLastUpdates());
 
-            for (ResponseEthermine response : responsesEthermine) {
-
-                totalNumberOfWorkers += response.getWorkers().getWorkersEthermine().size();
-
-                avgHashRate += response.getAvgHashrate();
-                currentHashRate += converter.convertStringHashRateToDouble(response.getHashRate());
-                reportedHashRate += converter.convertStringHashRateToDouble(response.getReportedHashRate());
-            }
-
-            long numberElementsInResponses = responsesEthermine.size();
-
-            avgHashRate /= numberElementsInResponses;
-            currentHashRate /= numberElementsInResponses;
-            reportedHashRate /= numberElementsInResponses;
-
-            setNumberOfWorkers(totalNumberOfWorkers, totalNumberOfWorkers);
-            setHashRates(converter.convertDoubleHashRateToString(avgHashRate),
-                    converter.convertDoubleHashRateToString(currentHashRate),
-                    converter.convertDoubleHashRateToString(reportedHashRate));
-        }
-        // setCurrency();
-        // setGraph();
+        lineChart.setData(mPresenter.getDataforGraphInBaseFragment());
+//        lineChart.invalidate();
     }
 
     private void setHashRates(String avgHashRate, String currentHashRate, String reportedHashRate) {
+        Log.d(LOG_TAG, "setHashRates()");
         tvAverageHashrate.setText(avgHashRate);
         tvCurrentHashrate.setText(currentHashRate);
         tvReportedHashrate.setText(reportedHashRate);
     }
 
-    private void setNumberOfWorkers(Long totalNumberOfWorkers, Long livingWorkers) {
+    @Override
+    public void updateDataEthermine() {
+        switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
 
-        for (ResponseEthermine response : responsesEthermine)
-            totalNumberOfWorkers += response.getWorkers().getWorkersEthermine().size();
+            case FRAGMENT_BASE:
+                refillFragmentBase();
+                break;
 
-        // TODO change this in production
-        livingWorkers = totalNumberOfWorkers;
-
-        tvWorkers.setText(totalNumberOfWorkers + "/" + livingWorkers);
+            case FRAGMENT_WORKERS:
+                refillFragmentWorkers();
+                break;
+        }
     }
 }

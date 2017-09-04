@@ -1,4 +1,4 @@
-package com.example.denis.miningproject20.views;
+package com.example.denis.miningproject20.views.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,11 +17,8 @@ import com.example.denis.miningproject20.views.presenters.IGraphPresenter;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class GraphActivity extends AppCompatActivity {
 

@@ -38,6 +38,9 @@ public class ConverterHashrate {
 
         Log.d(LOG_TAG, "convertDoubleHashRateToString => number = " + number);
 
+        if(number == null)
+            return "";
+
         if(KILO <= number && number < MEGA){
             resultBD = new BigDecimal(number / KILO).setScale(1, RoundingMode.UP);
             resultStr += resultBD.toString() + STRING_KILO;
